@@ -1,0 +1,30 @@
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Prepare training data
+X_years = renewable_pivot.index.values.reshape(-1, 1)
+future_years = np.arange(X_years.max() + 1, X_years.max() + 11).reshape(-1, 1)
+
+renewable_predictions = {}
+
+# Train a model per country using investment data
+for country in df["Country"].unique():
+    consumption_col = f"Energy Consumption_{country}"
+    investment_col = f"Investments (USD)_{country}"
+    
+    if consumption_col in renewable_pivot.columns and investment_col in renewable_pivot.columns:
+        X = renewable_pivot[[investment_col]].values  # Use investment as a feature
+        y = renewable_pivot[consumption_col].values  # Energy consumption
+        
+        model = LinearRegression()
+        model.fit(X, y)  # Train model
+        
+        # Predict energy consumption based on future investment trends
+        future_investment = np.linspace(X.min(), X.max(), 10).reshape(-1, 1)
+        renewable_predictions[country] = model.predict(future_investment)
+
+# Convert predictions into a DataFrame
+future_renewable_df = pd.DataFrame(renewable_predictions, index=future_years.flatten())
+
+# Display first few predictions
+future_renewable_df.head()
