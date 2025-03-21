@@ -1,0 +1,37 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load dataset
+renewable_url = "https://raw.githubusercontent.com/owid/energy-data/master/owid-energy-data.csv"
+renewable_data = pd.read_csv(renewable_url)
+
+# Check available columns
+print("Available columns:\n", renewable_data.columns)
+
+# Filter for global data (World-level trends)
+renewable_data = renewable_data[renewable_data['country'] == 'World']
+
+# Select relevant columns
+selected_columns = ['year', 'biofuel_consumption', 'wind_consumption', 'solar_share_energy']
+renewable_data = renewable_data[selected_columns]
+
+# Remove missing values
+renewable_data.dropna(inplace=True)
+
+# Save cleaned dataset
+renewable_data.to_csv("renewable_energy_cleaned.csv", index=False)
+print("Cleaned dataset saved successfully.")
+
+# Plot trends in renewable energy sources
+plt.figure(figsize=(10, 5))
+sns.lineplot(data=renewable_data, x='year', y='biofuel_consumption', label='Biofuel Consumption (TWh)', marker="o")
+sns.lineplot(data=renewable_data, x='year', y='wind_consumption', label='Wind Consumption (TWh)', marker="o")
+sns.lineplot(data=renewable_data, x='year', y='solar_share_energy', label='Solar Share in Energy (%)', marker="o")
+
+plt.title("Global Renewable Energy Consumption Trends")
+plt.xlabel("Year")
+plt.ylabel("Consumption / Share")
+plt.legend()
+plt.grid()
+plt.show()
