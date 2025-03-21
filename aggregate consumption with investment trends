@@ -1,0 +1,18 @@
+# Filter only renewable energy types
+renewable_types = ["Solar", "Wind", "Hydro", "Geothermal", "Biomass"]
+renewable_df = df[df["Energy Type"].isin(renewable_types)]
+
+# Aggregate renewable energy consumption & investments by country and year
+renewable_trend = renewable_df.groupby(["Country", "Year"])[["Energy Consumption", "Investments (USD)"]].sum().reset_index()
+
+# Pivot for time series modeling
+renewable_pivot = renewable_trend.pivot(index="Year", columns="Country", values=["Energy Consumption", "Investments (USD)"])
+
+# Fill missing values
+renewable_pivot = renewable_pivot.interpolate().fillna(method="bfill")
+
+# Rename columns for easier access
+renewable_pivot.columns = [f"{col[0]}_{col[1]}" for col in renewable_pivot.columns]
+
+# Display first few rows
+renewable_pivot.head()
