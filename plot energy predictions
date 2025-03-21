@@ -1,0 +1,16 @@
+import matplotlib.pyplot as plt
+
+# Select countries for plotting
+selected_countries = ["France", "India", "China", "Brazil", "Russia"]
+
+plt.figure(figsize=(12, 6))
+
+for country in selected_countries:
+    plt.plot(future_df.index, future_df[country], label=country)
+
+plt.title("Predicted Energy Consumption (Next 10 Years) for Selected Countries")
+plt.xlabel("Year")
+plt.ylabel("Energy Consumption (GWh)")
+plt.legend()
+plt.grid()
+plt.show()
