@@ -1,0 +1,22 @@
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Prepare training data
+X = region_pivot.index.values.reshape(-1, 1)  # Years as input
+predictions = {}
+
+# Train a model per country
+for country in region_pivot.columns:
+    y = region_pivot[country].values  # Energy Consumption
+    model = LinearRegression()
+    model.fit(X, y)  # Train model
+    
+    # Predict for the next 10 years
+    future_years = np.arange(X.max() + 1, X.max() + 11).reshape(-1, 1)
+    predictions[country] = model.predict(future_years)
+
+# Convert predictions into a DataFrame
+future_df = pd.DataFrame(predictions, index=future_years.flatten())
+
+# Display first few predictions
+future_df.head()
