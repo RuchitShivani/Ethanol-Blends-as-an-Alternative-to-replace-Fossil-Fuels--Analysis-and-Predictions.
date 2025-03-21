@@ -1,0 +1,14 @@
+# Add a column for yearly change in biofuel consumption
+df['biofuel_growth'] = df['biofuel_consumption'].pct_change()
+
+# Create lag features (previous year’s data as new features)
+df['biofuel_last_year'] = df['biofuel_consumption'].shift(1)
+df['wind_last_year'] = df['wind_consumption'].shift(1)
+df['solar_last_year'] = df['solar_share_energy'].shift(1)
+
+# Drop missing values after shifting
+df.dropna(inplace=True)
+
+# Save the feature-engineered dataset
+df.to_csv("renewable_energy_features.csv", index=False)
+print("Feature-engineered dataset saved successfully.")
