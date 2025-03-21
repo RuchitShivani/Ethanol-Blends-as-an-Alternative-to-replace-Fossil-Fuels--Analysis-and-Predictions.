@@ -1,0 +1,22 @@
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Prepare training data
+X = renewable_pivot.index.values.reshape(-1, 1)
+renewable_predictions = {}
+
+# Train a model per country
+for country in renewable_pivot.columns:
+    y = renewable_pivot[country].values
+    model = LinearRegression()
+    model.fit(X, y)  # Train model
+
+    # Predict for the next 10 years
+    future_years = np.arange(X.max() + 1, X.max() + 11).reshape(-1, 1)
+    renewable_predictions[country] = model.predict(future_years)
+
+# Convert predictions into a DataFrame
+future_renewable_df = pd.DataFrame(renewable_predictions, index=future_years.flatten())
+
+# Display first few predictions
+future_renewable_df.head()
