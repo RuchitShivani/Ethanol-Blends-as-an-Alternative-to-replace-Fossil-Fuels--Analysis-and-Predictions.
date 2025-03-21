@@ -1,0 +1,12 @@
+df.columns = df.columns.str.strip()  # Trim spaces
+# Group by Country and Year, then compute total Energy Consumption
+region_trend = df.groupby(["Country", "Year"])["Energy Consumption"].sum().reset_index()
+
+# Pivot to get time-series format
+region_pivot = region_trend.pivot(index="Year", columns="Country", values="Energy Consumption")
+
+# Fill missing values using interpolation
+region_pivot = region_pivot.interpolate().fillna(method="bfill")
+
+# Display first few rows
+region_pivot.head()
