@@ -13,7 +13,7 @@ This project analyzes and predicts renewable energy consumption trends across va
 
 ## Methodology
 1. **Data Preprocessing**:
-   - Cleaning and handling missing values.
+   - Cleaning and handling missing values to ensure an organised dataset
    - Normalization and transformation of data.
    - Feature engineering to incorporate investment trends.
 
