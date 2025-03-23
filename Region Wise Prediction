@@ -1,0 +1,36 @@
+# Import necessary libraries
+import matplotlib.pyplot as plt
+from prophet import Prophet
+
+# Convert 'TIME' column to datetime format
+df['TIME'] = pd.to_datetime(df['TIME'], format='%Y')
+
+# Aggregate data by Region and Time
+region_time_series = df.groupby(['TIME', 'REGION'])['Value'].sum().reset_index()
+
+# Get unique regions
+regions = region_time_series['REGION'].unique()
+
+# Forecast for each region
+for region_name in regions:
+    region_data = region_time_series[region_time_series['REGION'] == region_name]
+
+    # Prepare Data for Prophet
+    df_prophet = region_data.rename(columns={'TIME': 'ds', 'Value': 'y'})
+
+    # Initialize and fit Prophet model
+    model = Prophet()
+    model.fit(df_prophet)
+
+    # Ensure prediction extends to 2035
+    future_years = 2035 - df_prophet['ds'].dt.year.max()
+    future = model.make_future_dataframe(periods=future_years, freq='Y')
+    forecast = model.predict(future)
+
+    # Plot the forecast
+    plt.figure(figsize=(10, 5))
+    model.plot(forecast)
+    plt.title(f"🌍 Renewable Energy Forecast for {region_name} (Up to 2035)")
+    plt.xlabel("Year")
+    plt.ylabel("Renewable Energy (Thousand TOE)")
+    plt.show()
