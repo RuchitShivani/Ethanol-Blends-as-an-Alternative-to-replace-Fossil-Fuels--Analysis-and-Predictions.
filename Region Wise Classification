@@ -1,0 +1,53 @@
+# Install necessary libraries (only for Google Colab, uncomment if needed)
+!pip install prophet
+
+# Import libraries
+import pandas as pd
+
+# Load dataset
+df = pd.read_csv("renewable_energy.csv")
+
+# Complete country-to-region mapping (includes all 48 Asian countries)
+region_mapping = {
+    # North America
+    'USA': 'North America', 'CAN': 'North America', 'MEX': 'North America',
+
+    # South America
+    'BRA': 'South America', 'ARG': 'South America', 'CHL': 'South America', 'COL': 'South America', 'PER': 'South America',
+
+    # Europe
+    'AUT': 'Europe', 'BEL': 'Europe', 'BGR': 'Europe', 'HRV': 'Europe', 'CYP': 'Europe', 'CZE': 'Europe',
+    'DNK': 'Europe', 'EST': 'Europe', 'FIN': 'Europe', 'FRA': 'Europe', 'DEU': 'Europe', 'GRC': 'Europe',
+    'HUN': 'Europe', 'ISL': 'Europe', 'IRL': 'Europe', 'ITA': 'Europe', 'LVA': 'Europe', 'LTU': 'Europe',
+    'LUX': 'Europe', 'MLT': 'Europe', 'NLD': 'Europe', 'NOR': 'Europe', 'POL': 'Europe', 'PRT': 'Europe',
+    'ROU': 'Europe', 'SVK': 'Europe', 'SVN': 'Europe', 'ESP': 'Europe', 'SWE': 'Europe', 'CHE': 'Europe',
+    'GBR': 'Europe', 'RUS': 'Europe', 'UKR': 'Europe',
+
+    # Asia (All 48 countries)
+    'AFG': 'Asia', 'ARM': 'Asia', 'AZE': 'Asia', 'BHR': 'Asia', 'BGD': 'Asia', 'BTN': 'Asia', 'BRN': 'Asia',
+    'KHM': 'Asia', 'CHN': 'Asia', 'GEO': 'Asia', 'IND': 'Asia', 'IDN': 'Asia', 'IRN': 'Asia', 'IRQ': 'Asia',
+    'ISR': 'Asia', 'JPN': 'Asia', 'JOR': 'Asia', 'KAZ': 'Asia', 'KWT': 'Asia', 'KGZ': 'Asia', 'LAO': 'Asia',
+    'LBN': 'Asia', 'MYS': 'Asia', 'MDV': 'Asia', 'MNG': 'Asia', 'MMR': 'Asia', 'NPL': 'Asia', 'PRK': 'Asia',
+    'OMN': 'Asia', 'PAK': 'Asia', 'PHL': 'Asia', 'QAT': 'Asia', 'SAU': 'Asia', 'SGP': 'Asia', 'KOR': 'Asia',
+    'LKA': 'Asia', 'SYR': 'Asia', 'TWN': 'Asia', 'TJK': 'Asia', 'THA': 'Asia', 'TLS': 'Asia', 'TUR': 'Asia',
+    'TKM': 'Asia', 'ARE': 'Asia', 'UZB': 'Asia', 'VNM': 'Asia', 'YEM': 'Asia',
+
+    # Middle East (Overlaps some Asian countries but kept separate)
+    'SAU': 'Middle East', 'IRN': 'Middle East', 'TUR': 'Middle East', 'ISR': 'Middle East', 'UAE': 'Middle East', 'QAT': 'Middle East',
+
+    # Africa
+    'ZAF': 'Africa', 'EGY': 'Africa', 'NGA': 'Africa', 'KEN': 'Africa', 'ETH': 'Africa', 'DZA': 'Africa', 'MAR': 'Africa',
+
+    # Oceania
+    'AUS': 'Oceania', 'NZL': 'Oceania', 'FJI': 'Oceania', 'PNG': 'Oceania'
+}
+
+# Assign regions based on country codes
+df['REGION'] = df['LOCATION'].map(region_mapping)
+
+# Remove rows where REGION is not assigned (if any)
+df = df.dropna(subset=['REGION'])
+
+# Save the classified dataset
+df.to_csv("classified_renewable_energy.csv", index=False)
+print("✅ Classification complete. Data saved as 'classified_renewable_energy.csv'.")
