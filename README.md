@@ -4,7 +4,7 @@
 This project analyzes and predicts renewable energy consumption trends across various countries, taking into account investment trends and historical data. The goal is to understand how financial support and policy measures influence the growth of renewable energy sources.
 
 ## Dataset
-- **Primary Data Source**: MIND (Microsoft News Dataset) and other global energy datasets.
+- **Primary Data Source**: Global energy datasets from recognised sources such as World Bank.
 - **Features Considered**:
   - Historical renewable energy consumption (GWh)
   - Investment trends in renewable energy
