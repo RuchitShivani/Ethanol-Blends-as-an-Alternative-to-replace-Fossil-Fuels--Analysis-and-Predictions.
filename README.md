@@ -1,7 +1,7 @@
 # Ethanol Blends as an alternative to fossil fuels
 
 ## Overview
-This project analyzes and predicts renewable energy consumption trends across various countries, taking into account investment trends and historical data. The goal is to understand how financial support and policy measures influence the growth of renewable energy sources.
+This project analyzes and predicts renewable energy consumption trends across various countries, taking into account investment trends and historical data. The goal is to understand how financial support and policy measures influence the growth of renewable energy sources that can be utilised.
 
 ## Dataset
 - **Primary Data Source**: Global energy datasets from recognised sources such as World Bank.
